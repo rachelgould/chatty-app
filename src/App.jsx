@@ -40,7 +40,7 @@ class App extends Component {
     const submitMessage = (message) => {
       const newMessage = {
         id: message.id,
-        username: message.username,
+        username: message.username || 'Anonymous',
         content: message.content
       }
       const messages = this.state.messages.concat(newMessage)
