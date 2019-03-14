@@ -142,11 +142,9 @@ input {
   position: absolute;
   top: 0;
   width: 100%;
-  height: 80vh;
   padding-top: 70px;
   padding-bottom: 70px;
-  // Make it automatically scroll to the bottom?
-  // componentDidUpdate() command in Don's example from today - scroll to bottom of window
+  background-size: 100% 100%;
 }
 
 .messages.night {

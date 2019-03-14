@@ -33,6 +33,10 @@ class App extends Component {
     }
   }
 
+  componentDidUpdate() {
+    window.scrollTo(0,document.querySelector('.messages').scrollHeight);
+  }
+
   render() {
     const submitMessage = message => {
       const newMessage = {
@@ -58,12 +62,16 @@ class App extends Component {
 
     let currentHour = this.state.time;
     let timeOfDay;
-    if (currentHour >= 16) {
-      timeOfDay = 'night';
-    } else if (currentHour >= 12) {
-      timeOfDay = 'afternoon';
-    } else {
-      timeOfDay = 'morning';
+    switch(true) {
+      case currentHour >= 16:
+        timeOfDay = 'night';
+        break;
+      case currentHour >= 12:
+        timeOfDay = 'afternoon';
+        break;
+      default:
+        timeOfDay = 'morning';
+        break;
     }
 
     return (
