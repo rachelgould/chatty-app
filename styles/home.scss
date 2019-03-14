@@ -8,7 +8,18 @@ $light: #E8E9EB;
 
 #react-root {
   height: 100%;
-  overflow-y: hidden;
+  overflow: hidden;
+}
+
+#react-root > div {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  overflow: hidden;
 }
 
 body {
@@ -22,12 +33,13 @@ body {
 .chatbar {
   background: $dark;
   border-top: 1px solid black;
-  bottom: 0;
   display: flex;
-  left: 0;
-  padding: 5px;
-  position: fixed;
-  right: 0;
+  padding-top: 5px;
+  height: 58px;
+  align-self: flex-end;
+  width: 100%;
+  flex-shrink: 0;
+  flex-grow: 0;
 }
 
 .chatbar-message,
@@ -97,12 +109,10 @@ body {
   background: $dark;
   border-bottom: 1px solid black;
   height: 60px;
-  left: 0;
   padding: 0 10px;
-  position: fixed;
-  right: 0;
-  top: 0;
   z-index: 1000;
+  flex-shrink: 0;
+  flex-grow: 0;
 
   .users-count {
     font-size: 20px;
@@ -139,12 +149,8 @@ input {
 }
 
 .messages {
-  position: absolute;
-  top: 0;
-  width: 100%;
-  padding-top: 70px;
-  padding-bottom: 70px;
-  background-size: 100% 100%;
+  flex-grow: 1;
+  overflow-y: auto;
 }
 
 .messages.night {

@@ -34,7 +34,7 @@ class App extends Component {
   }
 
   componentDidUpdate() {
-    window.scrollTo(0,document.querySelector('.messages').scrollHeight);
+    document.querySelector('.messages').scrollTo(0,document.querySelector('.messages').scrollHeight);
   }
 
   render() {
@@ -44,14 +44,16 @@ class App extends Component {
         content: message.content,
         type: 'message'
       }
-      this.socket.send(JSON.stringify(newMessage));
+      if (newMessage.content.length > 0) {
+        this.socket.send(JSON.stringify(newMessage));
+      }
     }
 
     const changeCurrentUser = username => {
       const oldUser = this.state.currentUser.name;
       const newUser = username;
       const messageToServer = {
-        content: `${oldUser} changed their username to ${newUser}...`,
+        content: `${oldUser} changed their username to ${newUser}.`,
         type: 'globalNotification'
       }
       if (oldUser !== newUser) {

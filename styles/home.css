@@ -2,7 +2,25 @@
 @import url("https://cdnjs.cloudflare.com/ajax/libs/normalize/4.2.0/normalize.min.css");
 #react-root {
   height: 100%;
-  overflow-y: hidden;
+  overflow: hidden;
+}
+
+#react-root > div {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: start;
+      -ms-flex-pack: start;
+          justify-content: flex-start;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  overflow: hidden;
 }
 
 body {
@@ -16,14 +34,19 @@ body {
 .chatbar {
   background: #14050F;
   border-top: 1px solid black;
-  bottom: 0;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  left: 0;
-  padding: 5px;
-  position: fixed;
-  right: 0;
+  padding-top: 5px;
+  height: 58px;
+  -ms-flex-item-align: end;
+      align-self: flex-end;
+  width: 100%;
+  -ms-flex-negative: 0;
+      flex-shrink: 0;
+  -webkit-box-flex: 0;
+      -ms-flex-positive: 0;
+          flex-grow: 0;
 }
 
 .chatbar-message,
@@ -105,12 +128,13 @@ body {
   background: #14050F;
   border-bottom: 1px solid black;
   height: 60px;
-  left: 0;
   padding: 0 10px;
-  position: fixed;
-  right: 0;
-  top: 0;
   z-index: 1000;
+  -ms-flex-negative: 0;
+      flex-shrink: 0;
+  -webkit-box-flex: 0;
+      -ms-flex-positive: 0;
+          flex-grow: 0;
 }
 
 .navbar .users-count {
@@ -147,12 +171,10 @@ input {
 }
 
 .messages {
-  position: absolute;
-  top: 0;
-  width: 100%;
-  padding-top: 70px;
-  padding-bottom: 70px;
-  background-size: 100% 100%;
+  -webkit-box-flex: 1;
+      -ms-flex-positive: 1;
+          flex-grow: 1;
+  overflow-y: auto;
 }
 
 .messages.night {
