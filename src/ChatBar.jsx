@@ -18,7 +18,6 @@ class ChatBar extends Component {
     const chatMessageSubmit = (event) => {
       if (event.key === 'Enter') {
         let message = {
-          id: Math.floor(Math.random()*100),
           username: this.state.username,
           content: this.state.content
         };
