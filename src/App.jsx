@@ -8,7 +8,7 @@ class App extends Component {
     super(props);
     this.state = {
       messages: [],
-      currentUser: {name: 'Bob'},
+      currentUser: {name: 'Anonymous'},
       time: new Date().getHours(),
       socket: new WebSocket('ws://localhost:3001')
     }
@@ -31,13 +31,23 @@ class App extends Component {
     const submitMessage = message => {
       const newMessage = {
         username: message.username || 'Anonymous',
-        content: message.content
+        content: message.content,
+        type: 'message'
       }
       this.socket.send(JSON.stringify(newMessage));
     }
 
     const changeCurrentUser = username => {
-      this.setState({currentUser: {name: username}});
+      const oldUser = this.state.currentUser.name;
+      const newUser = username;
+      const messageToServer = {
+        content: `${oldUser} changed their username to ${newUser}...`,
+        type: 'globalNotification'
+      }
+      if (oldUser !== newUser) {
+        this.socket.send(JSON.stringify(messageToServer));
+        this.setState({currentUser: {name: username}});
+      }
     }
 
     let currentHour = this.state.time;

@@ -13,11 +13,13 @@ class ChatBar extends Component {
       this.setState({ username: event.target.value });
     }
     const sendUpNewUsername = event => {
-      let newUsername = this.state.username;
-      if (newUsername === '') {
-        this.props.changeCurrentUser('Anonymous')
-      } else {
-        this.props.changeCurrentUser(event.target.value);
+      if (event.key === 'Enter') {
+        let newUsername = this.state.username;
+        if (newUsername === '') {
+          this.props.changeCurrentUser('Anonymous')
+        } else {
+          this.props.changeCurrentUser(event.target.value);
+        }
       }
     }
     const chatMessageContent = (event) => {
@@ -35,7 +37,7 @@ class ChatBar extends Component {
     }
     return (
       <footer className="chatbar">
-        <input className="chatbar-username" value={this.state.username} onChange={usernameContent} onBlur={sendUpNewUsername}/>
+        <input className="chatbar-username" value={this.state.username} onChange={usernameContent} onKeyPress={sendUpNewUsername}/>
         <input className="chatbar-message" placeholder="Type a message and hit ENTER" value={this.state.content} onChange={chatMessageContent} onKeyPress={chatMessageSubmit} />
       </footer>
     );

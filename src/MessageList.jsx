@@ -8,7 +8,7 @@ class MessageList extends Component {
   }
   render() {
     const messageItems = this.props.messages.map(msg => (
-      <Message username={msg.username} content={msg.content} key={msg.id}/>
+      <Message username={msg.username} content={msg.content} key={msg.id} type={msg.type}/>
     ));
 
     let conditionalClass = this.props.time;

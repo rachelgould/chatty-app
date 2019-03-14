@@ -23,12 +23,34 @@ wss.on('connection', (ws) => {
   console.log('Client connected');
   ws.on('message', (msg) => {
     let msgRaw = JSON.parse(msg);
-    let incomingMsg = {
-      id: uuid(),
-      username: msgRaw.username,
-      content: msgRaw.content
+    let outgoingMsg;
+    let sync = true;
+    switch(msgRaw.type) {
+      case 'message':
+        outgoingMsg = {
+          id: uuid(),
+          username: msgRaw.username,
+          content: msgRaw.content,
+          type: msgRaw.type
+        }
+        break;
+      case 'globalNotification':
+        outgoingMsg = {
+          id: uuid(),
+          content: msgRaw.content,
+          type: msgRaw.type
+        }
+        break;
+      default:
+        outgoingMsg = {
+          id: uuid(),
+          content: 'Sorry, you can\'t do that.',
+          type: 'error'
+        }
     }
-    wss.broadcast(JSON.stringify(incomingMsg));
+    if (sync) {
+      wss.broadcast(JSON.stringify(outgoingMsg));
+    }
   });
   
   // Set up a callback for when a client closes the socket. This usually means they closed their browser.
