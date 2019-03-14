@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import Message from './Message.jsx';
+import Placeholder from './Placeholder.jsx';
 
 class MessageList extends Component {
   constructor(props) {
@@ -10,9 +11,11 @@ class MessageList extends Component {
       <Message username={msg.username} content={msg.content} key={msg.id}/>
     ));
 
+    let conditionalClass = this.props.time;
+
     return (
-      <main className="messages">
-        {messageItems}
+      <main className={conditionalClass + ' messages'}>
+        {messageItems.length > 0 ? messageItems : <Placeholder time={this.props.time} currentUser={this.props.currentUser}/>}
       </main>
     );
   }
