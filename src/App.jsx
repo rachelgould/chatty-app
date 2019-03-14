@@ -19,7 +19,8 @@ class App extends Component {
           id: "0102"
         }
       ],
-      currentUser: {name: 'Bob'}
+      currentUser: {name: 'Bob'},
+      socket: new WebSocket('ws://localhost:3001')
     }
   }
 
@@ -34,6 +35,14 @@ class App extends Component {
       // Calling setState will trigger a call to render() in App and all child components.
       this.setState({messages: messages})
     }, 3000);
+    const socket = this.state.socket;
+    socket.onopen = (event) => {
+      console.log('connected to server')
+      socket.send('TALK TO ME, SERVER!!');
+    }
+    socket.onmessage = function (event) {
+      console.log(event.data);
+    }
   }
 
   render() {
