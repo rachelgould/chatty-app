@@ -10,7 +10,8 @@ class App extends Component {
       messages: [],
       currentUser: {name: 'Anonymous'},
       time: new Date().getHours(),
-      socket: new WebSocket('ws://localhost:3001')
+      socket: new WebSocket('ws://localhost:3001'),
+      numUsers: 1
     }
     this.socket = this.state.socket;
   }
@@ -22,8 +23,13 @@ class App extends Component {
     }
     socket.onmessage = event => {
       let incomingMessage = JSON.parse(event.data);
-      const messages = this.state.messages.concat(incomingMessage);
-      this.setState({messages: messages});
+      
+      if (incomingMessage.type === 'displayNone') {
+        this.setState({numUsers: incomingMessage.userCount});
+      } else {
+        const messages = this.state.messages.concat(incomingMessage);
+        this.setState({messages: messages});
+      }
     }
   }
 
@@ -62,7 +68,7 @@ class App extends Component {
 
     return (
         <div>
-          <Menu />
+          <Menu users={this.state.numUsers}/>
           <MessageList messages={this.state.messages} time={timeOfDay} currentUser={this.state.currentUser.name}/>
           <ChatBar currentUser={this.state.currentUser.name} submitMessage={submitMessage.bind(this)} changeCurrentUser={changeCurrentUser}/>
         </div>
