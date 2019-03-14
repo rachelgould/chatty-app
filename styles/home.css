@@ -55,6 +55,21 @@ body {
   padding: 5px;
 }
 
+.notification {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  padding: 5px;
+}
+
+.notification-content {
+  font-weight: bold;
+  font-style: italic;
+  overflow: hidden;
+  margin: 5px;
+  padding: 0 10px;
+}
+
 .message.system {
   font-style: italic;
   padding: 5px 20px;
@@ -146,11 +161,11 @@ input {
 }
 
 .messages.afternoon {
-  background: #56CCF2;
+  background: #000046;
   /* fallback for old browsers */
   /* Chrome 10-25, Safari 5.1-6 */
-  background: -webkit-gradient(linear, left bottom, left top, from(#2F80ED), to(#56CCF2));
-  background: linear-gradient(to top, #2F80ED, #56CCF2);
+  background: -webkit-gradient(linear, left top, left bottom, from(#1CB5E0), to(#000046));
+  background: linear-gradient(to bottom, #1CB5E0, #000046);
   /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 }
 
