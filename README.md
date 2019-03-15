@@ -6,6 +6,13 @@ Built using the provided [React Simple Boilerplate](https://github.com/lighthous
 
 ## Screenshots
 
+![Key features](https://github.com/rachelgould/chatty-app/blob/master/screenshots/chatty-demo.gif?raw=true)
+
+![Morning theme](https://github.com/rachelgould/chatty-app/blob/master/screenshots/Screen%20Shot%202019-03-14%20at%207.37.21%20PM.png?raw=true)
+
+![Afternoon theme](https://github.com/rachelgould/chatty-app/blob/master/screenshots/Screen%20Shot%202019-03-14%20at%207.38.35%20PM.png?raw=true)
+
+![Night theme](https://github.com/rachelgould/chatty-app/blob/master/screenshots/Screen%20Shot%202019-03-14%20at%207.39.21%20PM.png?raw=true)
 
 
 ## Installation and Startup:
@@ -50,9 +57,29 @@ Here are some other things that I added to make this project my own:
 * Giphy API: users can enter `/gif query` in the chat bar, where query will be sent to the Giphy API. The server will randomly send back one of the returned gifs to be displayed in the browser
 * `/help` shows a list of commands
 
-### Dependencies
+## Dependencies
 
 * React
+* React DOM
 * Webpack
-* [babel-loader](https://github.com/babel/babel-loader)
-* [webpack-dev-server](https://github.com/webpack/webpack-dev-server)
+* Express
+* Giphy JS SDK
+* UUID
+* ws (WebSockets)
+
+### Dev Dependencies
+
+* Babel Core
+* Babel Loader
+* Babel Preset ES 2015
+* Babel Preset React
+* Babel Preset Stage 0
+* CSS Loader
+* ESlint
+* ESlint React
+* Node Sass
+* Sass-Loader
+* SockJS Client
+* Style Loader
+* Webpack
+* Webpack Dev Server
