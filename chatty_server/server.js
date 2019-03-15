@@ -21,7 +21,7 @@ let connectedUsers = 0;
 const incrementConnectedUsers = () => {
   connectedUsers ++;
   wss.broadcast(JSON.stringify({
-    type: 'displayNone',
+    type: 'userCounterChange',
     userCount: connectedUsers
   }));
   return connectedUsers;
@@ -30,7 +30,7 @@ const incrementConnectedUsers = () => {
 const decrementConnectedUsers = () => {
   connectedUsers --;
   wss.broadcast(JSON.stringify({
-    type: 'displayNone',
+    type: 'userCounterChange',
     userCount: connectedUsers
   }));
   return connectedUsers;
@@ -42,17 +42,37 @@ const decrementConnectedUsers = () => {
 wss.on('connection', (ws) => {
   console.log('Client connected');
   incrementConnectedUsers();
+  let userColor = '#E8E9EB';
+  const changeUserColor = color => {
+    userColor = color;
+    return userColor;
+  }
   ws.on('message', (msg) => {
     let msgRaw = JSON.parse(msg);
     let outgoingMsg;
+    let commandOption;
     let sync = true;
+    // If the message is a slash command
+    if (msgRaw.type === 'command') {
+      let { content } = msgRaw;
+      // Set the type of message equal to that command, and store the remaining content
+      if (content.indexOf(' ') === -1) {
+        // In this case there's nothing after the initial slash command
+        msgRaw.type = content.slice(1).toLowerCase();
+      } else {
+        msgRaw.type = content.slice(1, content.indexOf(' ')).toLowerCase();
+      }
+      commandOption = content.slice(content.indexOf(' ') + 1).toLowerCase();
+      sync = false;
+    }
     switch(msgRaw.type) {
       case 'message':
         outgoingMsg = {
           id: uuid(),
           username: msgRaw.username,
           content: msgRaw.content,
-          type: msgRaw.type
+          type: msgRaw.type,
+          color: userColor
         }
         break;
       case 'globalNotification':
@@ -62,12 +82,29 @@ wss.on('connection', (ws) => {
           type: msgRaw.type
         }
         break;
+      case 'setcolor':
+        changeUserColor(commandOption);
+        outgoingMsg = {
+          id: uuid(),
+          content: `You changed your color to ${userColor}.`,
+          type: 'globalNotification'
+        }
+        ws.send(JSON.stringify(outgoingMsg));
+        break;
+      case 'help':
+        break;
+      case 'settheme':
+        break;
+      case 'gif':
+        break;
       default:
         outgoingMsg = {
           id: uuid(),
-          content: 'Sorry, you can\'t do that.',
+          content: 'Sorry, that command doesn\'t exist. Type /help to get a list of valid commands.',
           type: 'error'
         }
+        ws.send(JSON.stringify(outgoingMsg));
+        break;
     }
     if (sync) {
       wss.broadcast(JSON.stringify(outgoingMsg));

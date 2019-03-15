@@ -65,7 +65,7 @@ body {
   padding: 5px;
 }
 
-.notification {
+.notification, .error {
   display: flex;
   padding: 5px;
 }
@@ -74,6 +74,15 @@ body {
   font-weight: bold;
   font-style: italic;
   overflow: hidden;
+  margin: 5px;
+  padding: 0 10px;
+}
+
+.error-content {
+  font-weight: bold;
+  overflow: hidden;
+  color: black;
+  background-color: white;
   margin: 5px;
   padding: 0 10px;
 }

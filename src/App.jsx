@@ -24,11 +24,17 @@ class App extends Component {
     socket.onmessage = event => {
       let incomingMessage = JSON.parse(event.data);
       
-      if (incomingMessage.type === 'displayNone') {
-        this.setState({numUsers: incomingMessage.userCount});
-      } else {
-        const messages = this.state.messages.concat(incomingMessage);
-        this.setState({messages: messages});
+      switch(incomingMessage.type) {
+        case 'userCounterChange':
+          this.setState({numUsers: incomingMessage.userCount});
+          break;
+        // case 'setcolor':
+        //   this.setState({currentUser.color = incomingMessage.content});
+        //   break;
+        default:
+          const messages = this.state.messages.concat(incomingMessage);
+          this.setState({messages: messages});
+          break;
       }
     }
   }
@@ -39,10 +45,16 @@ class App extends Component {
 
   render() {
     const submitMessage = message => {
+      let messageType;
+      if (message.content[0] === '/') {
+        messageType = 'command'
+      } else {
+        messageType = 'message'
+      }
       const newMessage = {
         username: message.username || 'Anonymous',
         content: message.content,
-        type: 'message'
+        type: messageType
       }
       if (newMessage.content.length > 0) {
         this.socket.send(JSON.stringify(newMessage));
@@ -65,7 +77,7 @@ class App extends Component {
     let currentHour = this.state.time;
     let timeOfDay;
     switch(true) {
-      case currentHour >= 16:
+      case currentHour >= 17:
         timeOfDay = 'night';
         break;
       case currentHour >= 12:
