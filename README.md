@@ -1,41 +1,54 @@
-React Boilerplate
-=====================
+# Chatty App - Lighthouse Labs Assignment
 
-A minimal and light dev environment for ReactJS.
+Lightweight single-page chat app built with ReactJS in Node. The client-side app communicates with a server via WebSockets for multi-user real-time updates.
 
-### Usage
+Built using the provided [React Simple Boilerplate](https://github.com/lighthouse-labs/react-simple-boilerplate).
 
-Clone the boilerplate and create your own git repo.
+## Screenshots
 
-```
-git clone git@github.com:lighthouse-labs/react-simple-boilerplate.git
-cd react-simple-boilerplate
-git remote rm origin
-git remote add origin [YOUR NEW REPOSITORY]
-# Manually update your package.json file
-```
 
-Install the dependencies and start the server.
+
+## Installation and Startup:
+
+The repository contains both the front-end application in `chatty-app/` and the server in `chatty-app/chatty_server/`. After cloning the repository, install dependencies:
 
 ```
-npm install
-npm start
-open http://localhost:3000
+chatty-app/ $ npm i
+...
+chatty-app/chatty_server $ npm i
 ```
 
-### Static Files
-
-You can store static files like images, fonts, etc in the `build` folder.
-
-For example, if you copy a file called my_image.png into the build folder you can access it using `http://localhost:3000/build/my_image.png`.
-
-### Linting
-
-This boilerplate project includes React ESLint configuration.
+Start both servers:
 
 ```
-npm run lint
+chatty-app/ $ npm start  // (localhost:3000)
+...
+chatty-app/chatty_server $ npm start  // (localhost:3001)
 ```
+
+Then connect to the client in your browser at: http://localhost:3000/
+
+## Features
+
+### Core Project Requirements
+
+* When any connected user sends a chat message, all connected users receive and display the message
+* When any connected user changes their name, all connected users are notified of the name change
+* Notifications are styled differently from chat messages
+* Header will display the count of connected users
+* When the number of connected users changes, this count will be updated for all connected users
+
+### Bonus Features
+
+Here are some other things that I added to make this project my own:
+
+* Custom CSS
+* 3 Themes that are automatically applied depending on the time of day
+* Placeholder text before the client has received messages (randomly shows 1 of 10 conversation starters)
+* User is greeted by the server upon receiving their first notification, and told about app features
+* Support for `/setcolor` command in the chat bar, which allows users to change their username color. (E.g. `/setcolor red` or `/setcolor #006699`)
+* Giphy API: users can enter `/gif query` in the chat bar, where query will be sent to the Giphy API. The server will randomly send back one of the returned gifs to be displayed in the browser
+* `/help` shows a list of commands
 
 ### Dependencies
 
