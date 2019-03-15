@@ -9,9 +9,11 @@ class ChatBar extends Component {
     }
   }
   render() {
+    // // If the person types in a new username but doesn't press enter, the state changes (controlled input field)
     const usernameContent = (event) => {
       this.setState({ username: event.target.value });
     }
+    // If they type in a new username and press enter, it changes the state and sends it up to app
     const sendUpNewUsername = event => {
       if (event.key === 'Enter') {
         let newUsername = this.state.username;

@@ -37,6 +37,7 @@ class App extends Component {
   }
 
   componentDidUpdate() {
+    // When the component updates, make sure you're scrolled to the bottom of the messages (where the most recent ones are)
     document.querySelector('.messages').scrollTo(0,document.querySelector('.messages').scrollHeight);
   }
 
@@ -53,6 +54,7 @@ class App extends Component {
         content: message.content,
         type: messageType
       }
+      // Only send to the server if there's content in the message
       if (newMessage.content.length > 0) {
         this.socket.send(JSON.stringify(newMessage));
       }
@@ -65,12 +67,14 @@ class App extends Component {
         content: `${oldUser} changed their username to ${newUser}.`,
         type: 'globalNotification'
       }
+      // Only send to the server if the new username is actually different than the old one
       if (oldUser !== newUser) {
         this.socket.send(JSON.stringify(messageToServer));
         this.setState({currentUser: {name: username}});
       }
     }
 
+    // Used to figure out what theme to use (background gradient is based on time of day)
     let currentHour = this.state.time;
     let timeOfDay;
     switch(true) {

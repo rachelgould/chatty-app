@@ -50,12 +50,17 @@ wss.on('connection', (ws) => {
     userColor = color;
     return userColor;
   }
+  welcomeMsg = {
+    id: uuid(),
+    content: `Welcome! Here are some things you can do with this app: Try changing your username color! Type "/setcolor" and then a color in plain text or a hex code! You can also send gifs by typing "/gif" and then a search term.`,
+    type: 'help'
+  }
+  ws.send(JSON.stringify(outgoingMsg));
   ws.on('message', (msg) => {
     let msgRaw = JSON.parse(msg);
     let outgoingMsg;
     let commandOption;
     let sync = true;
-    // If the message is a slash command
     if (msgRaw.type === 'command') {
       let { content } = msgRaw;
       // Set the type of message equal to that command, and store the remaining content
@@ -66,6 +71,7 @@ wss.on('connection', (ws) => {
         msgRaw.type = content.slice(1, content.indexOf(' ')).toLowerCase();
       }
       commandOption = content.slice(content.indexOf(' ') + 1).toLowerCase();
+      // Prevent broadcast from being sent if it's a slash command (handle asynchronously)
       sync = false;
     }
     switch(msgRaw.type) {
@@ -98,7 +104,7 @@ wss.on('connection', (ws) => {
         outgoingMsg = {
           id: uuid(),
           content: 'Try changing your username color! Type "/setcolor" and then a color in plain text or a hex code! You can also send gifs by typing "/gif" and then a search term.',
-          type: 'error'
+          type: 'help'
         }
         ws.send(JSON.stringify(outgoingMsg));
         break;
@@ -145,7 +151,7 @@ wss.on('connection', (ws) => {
   });
 });
 
-// Broadcasts to all clients when there's a new message
+// Broadcast to all clients when there's a new message
 wss.broadcast = incomingMsg => {
 wss.clients.forEach(client => {
   if (client.readyState === 1) {

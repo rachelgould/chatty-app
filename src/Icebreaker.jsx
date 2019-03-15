@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 
+// This component is shown before there are any messages in the messages list, as a placeholder
 class Icebreaker extends Component {
   render() {
     const iceBreakers = [

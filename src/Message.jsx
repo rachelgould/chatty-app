@@ -19,6 +19,10 @@ class Message extends Component {
         divClass = type;
         spanContentClass = 'error-content';
         break;
+      case 'help':
+        divClass = type;
+        spanContentClass = 'help-content';
+        break;
     }
     // If there's a custom color set, set the style object for it
     if (color) {
