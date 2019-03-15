@@ -6,7 +6,9 @@ Built using the provided [React Simple Boilerplate](https://github.com/lighthous
 
 ## Screenshots
 
-![Key features](https://github.com/rachelgould/chatty-app/blob/master/screenshots/chatty-demo.gif?raw=true)
+![Key features](https://media.giphy.com/media/B0WtsE4WhRN1zJI3gG/giphy.gif)
+
+![More features](https://media.giphy.com/media/9J3zn9n17NM0FQMT4j/giphy.gif)
 
 ![Morning theme](https://github.com/rachelgould/chatty-app/blob/master/screenshots/Screen%20Shot%202019-03-14%20at%207.37.21%20PM.png?raw=true)
 
