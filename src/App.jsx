@@ -22,6 +22,16 @@ class App extends Component {
       console.log('Connected to server')
     }
     socket.onmessage = event => {
+      // When the user gets their first notification/message, client requests for the welcome message
+      if (this.state.messages.length === 1) {
+        const request = {
+          username: this.state.currentUser.name,
+          content: '/welcome',
+          type: 'command'
+        }
+        this.socket.send(JSON.stringify(request));
+      }
+
       let incomingMessage = JSON.parse(event.data);
       
       switch(incomingMessage.type) {

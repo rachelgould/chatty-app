@@ -45,50 +45,45 @@ const decrementConnectedUsers = () => {
 wss.on('connection', (ws) => {
   console.log('Client connected');
   incrementConnectedUsers();
-  let userColor = '#E8E9EB';
+  let userColor = null;
   const changeUserColor = color => {
     userColor = color;
     return userColor;
   }
-  welcomeMsg = {
-    id: uuid(),
-    content: `Welcome! Here are some things you can do with this app: Try changing your username color! Type "/setcolor" and then a color in plain text or a hex code! You can also send gifs by typing "/gif" and then a search term.`,
-    type: 'help'
-  }
-  ws.send(JSON.stringify(outgoingMsg));
+  let alreadyWelcomed = false;
   ws.on('message', (msg) => {
     let msgRaw = JSON.parse(msg);
     let outgoingMsg;
     let commandOption;
     let sync = true;
-    if (msgRaw.type === 'command') {
-      let { content } = msgRaw;
+    let { content, username, type } = msgRaw;
+    if (type === 'command') {
       // Set the type of message equal to that command, and store the remaining content
       if (content.indexOf(' ') === -1) {
         // In this case there's nothing after the initial slash command
-        msgRaw.type = content.slice(1).toLowerCase();
+        type = content.slice(1).toLowerCase();
       } else {
-        msgRaw.type = content.slice(1, content.indexOf(' ')).toLowerCase();
+        type = content.slice(1, content.indexOf(' ')).toLowerCase();
       }
       commandOption = content.slice(content.indexOf(' ') + 1).toLowerCase();
       // Prevent broadcast from being sent if it's a slash command (handle asynchronously)
       sync = false;
     }
-    switch(msgRaw.type) {
+    switch(type) {
       case 'message':
         outgoingMsg = {
           id: uuid(),
-          username: msgRaw.username,
-          content: msgRaw.content,
-          type: msgRaw.type,
+          username: username,
+          content: content,
+          type: type,
           color: userColor
         }
         break;
       case 'globalNotification':
         outgoingMsg = {
           id: uuid(),
-          content: msgRaw.content,
-          type: msgRaw.type
+          content: content,
+          type: type
         }
         break;
       case 'setcolor':
@@ -108,6 +103,18 @@ wss.on('connection', (ws) => {
         }
         ws.send(JSON.stringify(outgoingMsg));
         break;
+      case 'welcome':
+        if (alreadyWelcomed === false) {
+          outgoingMsg = {
+            id: uuid(),
+            content: `Welcome! Here are some things you can do with this app: Try changing your username color! Type "/setcolor" and then a color in plain text or a hex code! You can also send gifs by typing "/gif" and then a search term.`,
+            type: 'help'
+          }
+          ws.send(JSON.stringify(outgoingMsg));
+          alreadyWelcomed = true;
+          return alreadyWelcomed;
+        }
+        break;
       case 'gif':
         let matchingGIFs = [];
         let randomMatch;
@@ -119,9 +126,9 @@ wss.on('connection', (ws) => {
           randomMatch = matchingGIFs[Math.floor(Math.random() * (matchingGIFs.length - 1))];
           outgoingMsg = {
             id: uuid(),
-            username: msgRaw.username,
+            username: username,
             content: randomMatch,
-            type: msgRaw.type,
+            type: type,
             color: userColor
           }
           wss.broadcast(JSON.stringify(outgoingMsg));
