@@ -92,6 +92,12 @@ wss.on('connection', (ws) => {
         ws.send(JSON.stringify(outgoingMsg));
         break;
       case 'help':
+        outgoingMsg = {
+          id: uuid(),
+          content: 'Try changing your username color! Type /setcolor and then a color in plain text or a hex code!',
+          type: 'error'
+        }
+        ws.send(JSON.stringify(outgoingMsg));
         break;
       case 'settheme':
         break;
