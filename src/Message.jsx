@@ -7,7 +7,7 @@ class Message extends Component {
     let spanContentClass;
     let customStyle = {};
     switch (type) {
-      case 'message':
+      default:
         divClass = type;
         spanContentClass = 'message-content';
         break;
@@ -29,7 +29,7 @@ class Message extends Component {
       <div className={divClass}>
       {/* If there's a username, add the username span tag */}
         {username ? <span style={customStyle} className="message-username">{username}</span> : ''}
-        <span className={spanContentClass}>{content}</span>
+        <span className={spanContentClass}>{type === 'gif' ? <img src={content} alt="gif" /> : content}</span>
       </div>
     );
   }

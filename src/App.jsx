@@ -28,9 +28,6 @@ class App extends Component {
         case 'userCounterChange':
           this.setState({numUsers: incomingMessage.userCount});
           break;
-        // case 'setcolor':
-        //   this.setState({currentUser.color = incomingMessage.content});
-        //   break;
         default:
           const messages = this.state.messages.concat(incomingMessage);
           this.setState({messages: messages});

@@ -3,6 +3,9 @@
 const express = require('express');
 const SocketServer = require('ws').Server;
 const uuid = require('uuid/v4');
+const GphApiClient = require('giphy-js-sdk-core');
+const gifAPI = require('./secrets.js');
+let client = GphApiClient(gifAPI.API);
 
 // Set the port to 3001
 const PORT = 3001;
@@ -94,14 +97,32 @@ wss.on('connection', (ws) => {
       case 'help':
         outgoingMsg = {
           id: uuid(),
-          content: 'Try changing your username color! Type /setcolor and then a color in plain text or a hex code!',
+          content: 'Try changing your username color! Type "/setcolor" and then a color in plain text or a hex code! You can also send gifs by typing "/gif" and then a search term.',
           type: 'error'
         }
         ws.send(JSON.stringify(outgoingMsg));
         break;
-      case 'settheme':
-        break;
       case 'gif':
+        let matchingGIFs = [];
+        let randomMatch;
+        client.search('gifs', {"q": commandOption})
+        .then((response) => {
+          response.data.forEach((gifObject) => {
+            matchingGIFs.push(gifObject.images.fixed_width.url);
+          })
+          randomMatch = matchingGIFs[Math.floor(Math.random() * (matchingGIFs.length - 1))];
+          outgoingMsg = {
+            id: uuid(),
+            username: msgRaw.username,
+            content: randomMatch,
+            type: msgRaw.type,
+            color: userColor
+          }
+          wss.broadcast(JSON.stringify(outgoingMsg));
+        })
+        .catch((err) => {
+          console.log("ERROR: ", err);
+        })
         break;
       default:
         outgoingMsg = {
