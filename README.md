@@ -37,6 +37,16 @@ chatty-app/chatty_server $ npm start  // (localhost:3001)
 
 Then connect to the client in your browser at: http://localhost:3000/
 
+### Enabling Giphy Support
+
+In order to use the Giphy API, you must set up an API key and make it accessible to Chatty App. Here's how you do that:
+
+1. Go to developers.giphy.com and make an account (or log in), and generate an API key
+2. Open chatty_server/secrets-example.js, and replace `<your Giphy API key goes here>` with your key. Make sure you wrap it in quotes: `"API KEY"`
+3. Rename secrets-example.js to **secrets.js**
+
+That's it! Now you should be able to use the Giphy API.
+
 ## Features
 
 ### Core Project Requirements
